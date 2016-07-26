@@ -1,0 +1,54 @@
+@import 'bourbon/bourbon';
+
+body {
+    font-family: sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 100;
+    text-align: center;
+    padding-top: 50px;
+    font-size: 20px;
+    background-color: hsl(0,0,90%);
+}
+.wrapper {
+    background-color: hsl(0, 100%, 74%); //pink
+    display: inline-block;
+    padding: 30px;
+    overflow: hidden;
+}
+[class*="button"] {
+    color: white;
+    position: relative;
+    z-index: 10;
+
+    &:after {
+        $size: 150%;
+        content: "";
+        width: $size;
+        height: 0;
+        padding-top: $size;
+        object-fit: contain;
+        background-color: hsl(0,0%,40%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -($size/2);
+        opacity: 1;
+        border-radius: 50%;
+        @include transform(scale(0) translateZ(0));
+        @include transition(all .2s ease);
+        z-index: -1;
+    }
+}
+.button-one:after {
+    @include animation(scaler 1.5s ease infinite alternate);
+}
+
+@include keyframes(scaler) {
+    0%, 50% {
+        @include transform(scale(0) translateZ(0));
+    }
+    100% {
+        @include transform(scale(1) translateZ(0));
+    }
+}

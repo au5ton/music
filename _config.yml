@@ -1,0 +1,6 @@
+gems:
+    - bourbon
+    - neat
+sass:
+    sass_dir: sass
+    style: compressed
