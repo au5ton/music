@@ -21,6 +21,11 @@ $primary-font: 'Space Mono', 'Menlo', 'Lucida Console', monospace;
 $github-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 $secondary-font: 'Roboto', sans-serif;
 
+//Debugging
+// * {
+//     border: 1px solid red;
+// }
+
 body {
     overflow-x: hidden;
     color: $text-grey;
@@ -52,7 +57,7 @@ a.btn {
 
 .music-container {
     margin-bottom: 20px;
-    text-align: left;
+    text-align: center;
     .song-grid {
         margin-bottom: 10px;
     }
@@ -65,12 +70,12 @@ a.btn {
         margin: 6px;
         transition: all 0.25s;
         a {
-            width: 150px;
-            height: 150px;
+            width: 100%;
+            height: 100%;
         }
         img {
-            width: 150px;
-            height: 150px;
+            width: 100%;
+            height: 100%;
         }
         &, img {
             border-radius: 2px;
@@ -79,6 +84,41 @@ a.btn {
         &:hover {
             @include z-depth-2();
             transform: translateY(-5px);
+        }
+    }
+}
+
+@media(max-width: 340px) {
+    .music-container {
+        text-align: center;
+        .song {
+            width: 125px;
+            height: 125px;
+            margin: 5px;
+        }
+    }
+}
+
+@media(min-width: 351px) {
+    .music-container {
+        .song-grid {
+            max-width: 973px;
+            margin: 0 auto;
+        }
+    }
+}
+
+// Prevent odd-looking rows of music at large resolutions (starting at and after about 1080p)
+@media(min-width: 1800px) {
+    .music-container {
+        width: 70%; //mimics materializecss >= 993px grid format
+        max-width: 1280px;
+
+        margin: 0 auto;
+        text-align: left;
+        .song-grid {
+            //max-width: initial;
+            margin-left: 0;
         }
     }
 }
