@@ -14,6 +14,14 @@ function escapeHtml(unsafe) {
     .replace(/'/g, "&#039;");
 }
 
+//Disable tooltips on mobile
+if(document.body.clientWidth <= 600) {
+    var arr = document.querySelectorAll('[data-balloon]');
+    for(var i = 0; i < arr.length; i++) {
+        arr.item(i).removeAttribute('data-balloon');
+    }
+}
+
 window.SoundCloud = {
     createSongElement: function(t) {
         var elem = document.createElement('div');
