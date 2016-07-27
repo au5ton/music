@@ -38,6 +38,7 @@
     </script>
 
     <!-- END OF OBLIGATORY TAGS -->
+    <link rel="stylesheet" href="css/balloon.min.css">
     <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/music.css">
 
@@ -53,7 +54,7 @@
         </p>
         <h5 class="feature">SoundCloud likes</h5>
     </div>
-    <div class=" content">
+    <div class="content">
         <div class="music-container">
             <div id="music-sc" class="song-grid">
                 <!-- INSTANCES ARE CREATED FROM THE TEMPLATE AND PLACED HERE -->
@@ -79,7 +80,7 @@
     <div class="container content">
         <h5 class="feature">Last.fm scrobbles</h5>
     </div>
-    <div class=" content">
+    <div class="content">
         <div class="music-container">
             <div id="music-fm" class="song-grid">
                 <!-- INSTANCES ARE CREATED FROM THE TEMPLATE AND PLACED HERE -->
@@ -105,8 +106,15 @@
 
     <div style="display:none;">
         <!-- SONG ELEMENT TEMPLATE -->
-        <div id="song-template" class="song animated">
-            <a href="{{PERMALINK}}"><span class="hint--top hint--rounded" aria-label="{{SONG_TITLE}}"><img src="{{COVER_ART}}"></span></a>
+        <div id="song-template-sc" class="song-wrap">
+            <div class="song" data-balloon="{{SONG_TITLE}}" data-balloon-pos="up">
+                <a href="{{PERMALINK}}"><img src="{{COVER_ART}}"></a>
+            </div>
+        </div>
+        <div id="song-template-fm" class="song-wrap">
+            <div class="song" data-balloon="&ldquo;{{SONG_TITLE}}&rdquo; &ndash; {{SONG_ARTIST}}" data-balloon-pos="up">
+                <a href="{{PERMALINK}}"><img src="{{COVER_ART}}"></a>
+            </div>
         </div>
     </div>
 

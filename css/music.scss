@@ -61,6 +61,10 @@ a.btn {
     .song-grid {
         margin-bottom: 10px;
     }
+    .song-wrap {
+        //nothing important, just for tooltips
+        display: inline-block;
+    }
     .song {
         //Cover art is intended to be 300x300
         width: 150px;
@@ -102,7 +106,7 @@ a.btn {
 @media(min-width: 351px) {
     .music-container {
         .song-grid {
-            max-width: 973px;
+            max-width: 950px;
             margin: 0 auto;
         }
     }

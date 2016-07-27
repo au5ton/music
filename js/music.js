@@ -17,8 +17,8 @@ function escapeHtml(unsafe) {
 window.SoundCloud = {
     createSongElement: function(t) {
         var elem = document.createElement('div');
-        elem.setAttribute('class', 'song');
-        elem.innerHTML = document.getElementById('song-template').innerHTML;
+        elem.setAttribute('class', 'song-wrap');
+        elem.innerHTML = document.getElementById('song-template-sc').innerHTML;
         elem.innerHTML = String(elem.innerHTML).replace('{{PERMALINK}}',t['permalink']);
         elem.innerHTML = String(elem.innerHTML).replace('{{SONG_TITLE}}',escapeHtml(t['song_title']));
         elem.innerHTML = String(elem.innerHTML).replace('{{COVER_ART}}',t['cover_art']);
@@ -29,10 +29,11 @@ window.SoundCloud = {
 window.LastFm = {
     createSongElement: function(t) {
         var elem = document.createElement('div');
-        elem.setAttribute('class', 'song');
-        elem.innerHTML = document.getElementById('song-template').innerHTML;
+        elem.setAttribute('class', 'song-wrap');
+        elem.innerHTML = document.getElementById('song-template-fm').innerHTML;
         elem.innerHTML = String(elem.innerHTML).replace('{{PERMALINK}}',t['permalink']);
         elem.innerHTML = String(elem.innerHTML).replace('{{SONG_TITLE}}',escapeHtml(t['song_title']));
+        elem.innerHTML = String(elem.innerHTML).replace('{{SONG_ARTIST}}',escapeHtml(t['song_artist']));
         elem.innerHTML = String(elem.innerHTML).replace('{{COVER_ART}}',t['cover_art']);
         return elem;
     }
@@ -41,7 +42,6 @@ window.LastFm = {
 
 //SoundCloud likes
 window.fetch('https://austinjnet-stats.herokuapp.com/api/soundcloud/likes?count=10').then(function(response){
-    console.log(response);
     return response.json();
 }).then(function(json){
     //we got the json
@@ -55,7 +55,7 @@ window.fetch('https://austinjnet-stats.herokuapp.com/api/soundcloud/likes?count=
     }
 }).catch(function(ex){
     //well crap
-    console.log(ex);
+    console.error(ex);
     var songGrid = document.querySelector('.song-grid#music-sc');
     //Replaces the loader in the process
     songGrid.innerHTML = '<h5 class=\'red-text fetch-failure\'>Failed to load from the statistics server.</h5>';
@@ -63,7 +63,6 @@ window.fetch('https://austinjnet-stats.herokuapp.com/api/soundcloud/likes?count=
 
 //Last.fm scrobbles
 window.fetch('https://austinjnet-stats.herokuapp.com/api/lastfm/recent?count=10').then(function(response){
-    console.log(response);
     return response.json();
 }).then(function(json){
     //we got the json
@@ -71,12 +70,12 @@ window.fetch('https://austinjnet-stats.herokuapp.com/api/lastfm/recent?count=10'
     //empties the grid
     songGrid.innerHTML = '';
     for(var i = 0; i < json.length; i++) {
-        var elem = window.SoundCloud.createSongElement(json[i]);
+        var elem = window.LastFm.createSongElement(json[i]);
         songGrid.appendChild(elem);
     }
 }).catch(function(ex){
     //well crap
-    console.log(ex);
+    console.error(ex);
     var songGrid = document.querySelector('.song-grid#music-fm');
     //Replaces the loader in the process
     songGrid.innerHTML = '<h5 class=\'red-text fetch-failure\'>Failed to load from the statistics server.</h5>';
