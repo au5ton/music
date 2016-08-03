@@ -48,43 +48,97 @@ window.LastFm = {
 };
 
 
-//SoundCloud likes
-window.fetch('https://austinjnet-stats.herokuapp.com/api/soundcloud/likes?count=10').then(function(response){
-    return response.json();
-}).then(function(json){
-    //we got the json
 
-    var songGrid = document.querySelector('.song-grid#music-sc');
-    //empties the grid
-    songGrid.innerHTML = '';
-    for(var i = 0; i < json.length; i++) {
-        var elem = window.SoundCloud.createSongElement(json[i]);
-        songGrid.appendChild(elem);
+function populateSoundCloud(count) {
+    if(typeof count !== 'number' || count <= 0) {
+        count = 10;
     }
-}).catch(function(ex){
-    //well crap
-    console.error(ex);
-    var songGrid = document.querySelector('.song-grid#music-sc');
-    //Replaces the loader in the process
-    songGrid.innerHTML = '<h5 class=\'red-text fetch-failure\'>Failed to load from the statistics server.</h5>';
+    //SoundCloud likes
+    window.fetch('https://austinjnet-stats.herokuapp.com/api/soundcloud/likes?count='+count).then(function(response){
+        return response.json();
+    }).then(function(json){
+        //we got the json
+
+        var songGrid = document.querySelector('.song-grid#music-sc');
+        //empties the grid
+        songGrid.innerHTML = '';
+        for(var i = 0; i < json.length; i++) {
+            var elem = window.SoundCloud.createSongElement(json[i]);
+            songGrid.appendChild(elem);
+        }
+    }).catch(function(ex){
+        //well crap
+        console.error(ex);
+        var songGrid = document.querySelector('.song-grid#music-sc');
+        //Replaces the loader in the process
+        songGrid.innerHTML = '<h5 class=\'red-text fetch-failure\'>Failed to load from the statistics server.</h5>';
+    });
+}
+
+function populateLastFm(count) {
+    if(typeof count !== 'number' || count <= 0) {
+        count = 10;
+    }
+    //Last.fm scrobbles
+    window.fetch('https://austinjnet-stats.herokuapp.com/api/lastfm/recent?count='+count).then(function(response){
+        return response.json();
+    }).then(function(json){
+        //we got the json
+        var songGrid = document.querySelector('.song-grid#music-fm');
+        //empties the grid
+        songGrid.innerHTML = '';
+        for(var i = 0; i < json.length; i++) {
+            var elem = window.LastFm.createSongElement(json[i]);
+            songGrid.appendChild(elem);
+        }
+    }).catch(function(ex){
+        //well crap
+        console.error(ex);
+        var songGrid = document.querySelector('.song-grid#music-fm');
+        //Replaces the loader in the process
+        songGrid.innerHTML = '<h5 class=\'red-text fetch-failure\'>Failed to load from the statistics server.</h5>';
+    });
+}
+
+populateSoundCloud(10);
+populateLastFm(10);
+
+document.getElementById('loadmore-sc').addEventListener('click', function(event){
+    //event.target is the element clicked
+    if(event.target.getAttribute('class').split(' ').indexOf('disabled') === -1) {
+        //if the 'disabled' class isn't already on the button
+
+        //Clone the loader element
+        var loader = document.createElement('div');
+        loader.setAttribute('class', 'loader-container');
+        loader.innerHTML = document.getElementById('loader-template').innerHTML;
+
+        //Append the loader element
+        document.querySelector('.song-grid#music-sc').appendChild(loader);
+
+        populateSoundCloud(30);
+
+        event.target.setAttribute('class', event.target.getAttribute('class')+' disabled'); //Disable the button
+        event.target.innerText = 'Already loaded';
+    }
 });
+document.getElementById('loadmore-fm').addEventListener('click', function(event){
+    //event.target is the element clicked
 
-//Last.fm scrobbles
-window.fetch('https://austinjnet-stats.herokuapp.com/api/lastfm/recent?count=10').then(function(response){
-    return response.json();
-}).then(function(json){
-    //we got the json
-    var songGrid = document.querySelector('.song-grid#music-fm');
-    //empties the grid
-    songGrid.innerHTML = '';
-    for(var i = 0; i < json.length; i++) {
-        var elem = window.LastFm.createSongElement(json[i]);
-        songGrid.appendChild(elem);
+    if(event.target.getAttribute('class').split(' ').indexOf('disabled') === -1) {
+        //if the 'disabled' class isn't already on the button
+
+        //Clone the loader element
+        var loader = document.createElement('div');
+        loader.setAttribute('class', 'loader-container');
+        loader.innerHTML = document.getElementById('loader-template').innerHTML;
+
+        //Append the loader element
+        document.querySelector('.song-grid#music-fm').appendChild(loader);
+
+        populateLastFm(30);
+
+        event.target.setAttribute('class', event.target.getAttribute('class')+' disabled'); //Disable the button
+        event.target.innerText = 'Already loaded';
     }
-}).catch(function(ex){
-    //well crap
-    console.error(ex);
-    var songGrid = document.querySelector('.song-grid#music-fm');
-    //Replaces the loader in the process
-    songGrid.innerHTML = '<h5 class=\'red-text fetch-failure\'>Failed to load from the statistics server.</h5>';
 });
