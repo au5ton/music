@@ -120,6 +120,10 @@ document.getElementById('loadmore-sc').addEventListener('click', function(event)
 
         event.target.setAttribute('class', event.target.getAttribute('class')+' disabled'); //Disable the button
         event.target.innerText = 'Already loaded';
+        if(document.body.clientWidth <= 600) {
+            //Hide button after pressing on mobile for screen space
+            event.target.style = 'display:none;';
+        }
     }
 });
 document.getElementById('loadmore-fm').addEventListener('click', function(event){
@@ -140,5 +144,9 @@ document.getElementById('loadmore-fm').addEventListener('click', function(event)
 
         event.target.setAttribute('class', event.target.getAttribute('class')+' disabled'); //Disable the button
         event.target.innerText = 'Already loaded';
+        if(document.body.clientWidth <= 600) {
+            //Hide button after pressing on mobile for screen space
+            event.target.style = 'display:none;';
+        }
     }
 });
