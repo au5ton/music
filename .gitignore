@@ -1,3 +1,6 @@
 .sass-cache/
 Gemfile.lock
 _site/
+
+# OS X
+.DS_Store
